@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
+
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -31,5 +32,20 @@ class User extends Authenticatable
 
     public function post(){
         return $this->hasOne('App\post');
+    }
+
+
+    public function posts(){
+        return $this->hasMany('App\post');
+    }
+
+    public function roles(){
+        return $this->belongsToMany('App\Role')->withPivot('created_at');
+
+        //  return $this->belongsToMany('App\Role', 'user_roles', 'user_id', 'role_id');
+    }
+
+       public function photos(){
+        return $this->morphMany('App\Photo', 'imageable');  
     }
 }

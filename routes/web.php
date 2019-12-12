@@ -1,6 +1,10 @@
 <?php
+use App\Country;
 use App\Post;
 use App\User;
+use App\Role;
+use App\Photo;
+use App\Tag;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -96,9 +100,9 @@ Route::get('/', function () {
 // | DATABASE Raw SQL Queries
 // |--------------------------------------------------------
 
-Route::get('/insert', function(){
-	DB::insert('insert into posts(title, content) values(?, ?)', ['PHP with Laravel', 'Laravel is the best thing that has happened to PHP']);
-});
+// Route::get('/insert', function(){
+// 	DB::insert('insert into posts(title, content) values(?, ?)', ['PHP with Laravel', 'Laravel is the best thing that has happened to PHP']);
+// });
 
 
 
@@ -170,12 +174,12 @@ Route::get('/insert', function(){
 
 
 
-Route::get('/findmore', function(){
-	// $posts=Post::findOrFail(2);
-	// return  $posts;
+// Route::get('/findmore', function(){
+// 	// $posts=Post::findOrFail(2);
+// 	// return  $posts;
 
-	$posts=Post::where('users_count', '<', 50)->findOrFail();
-});
+// 	$posts=Post::where('users_count', '<', 50)->findOrFail();
+// });
 
 
 
@@ -198,9 +202,9 @@ Route::get('/findmore', function(){
 
 
 
-Route::get('/create', function(){
-	Post::create(['title'=>'the create method3', 'content'=>'WOW I\'am learning well with Edwin3']);
-});
+// Route::get('/create', function(){
+// 	Post::create(['title'=>'the create method3', 'content'=>'WOW I\'am learning well with Edwin3']);
+// });
 
 
 
@@ -212,10 +216,10 @@ Route::get('/create', function(){
 
 
 
-Route::get('/delete', function(){
-	$post = Post::find(2);
-	$post->delete();
-});
+// Route::get('/delete', function(){
+// 	$post = Post::find(2);
+// 	$post->delete();
+// });
 
 
 // Route::get('/delete2', function(){
@@ -258,9 +262,9 @@ Route::get('/delete', function(){
 
 //to delete a restore premanently
 
-Route::get('/forcedelete', function(){
-	Post::onlyTrashed()->where('is_admin', 0)->forcedelete();
-});
+// Route::get('/forcedelete', function(){
+// 	Post::onlyTrashed()->where('is_admin', 0)->forcedelete();
+// });
 
 
 
@@ -272,14 +276,111 @@ Route::get('/forcedelete', function(){
 // |--------------------------------------------------------
 
 
-//one to one reationship
-Route::get('/user/{id}/post', function($id){
-	return User::find($id)->post->content;
+// //one to one reationship
+// Route::get('/user/{id}/post', function($id){
+// 	return User::find($id)->post->content;
+// });
+
+
+
+// Route::get('/post/{id}/user', function($id){
+// 	return Post::find($id)->user->name;
+// });
+
+
+
+
+//one to many relationship
+// Route::get('/posts', function(){
+// 	$user = User::find(1);
+// 	foreach($user->posts as $post){
+// 		return $post->content;
+// 	}
+// });
+
+
+// //many to many relationship
+// Route::get('/user/{id}/role', function($id){
+// 	$user=User::find($id)->roles()->orderBy('id', 'desc')->get();
+
+// 	return $user;
+// 	// foreach($user->roles as $role){
+// 	// 	return $role->name;
+// 	// }
+// });
+
+
+
+
+
+// //accessing intermediate table / pivot table
+// Route::get('user/pivot', function(){
+// 	$user = User::find(1);
+// 	foreach($user->roles as $role){
+// 		echo $role->pivot->created_at;
+// 			// return $role->pivot;
+// 	}
+// });
+
+
+
+
+
+// Route::get('/user/country', function(){
+// 	$country = Country::find(1);
+// 	foreach($country->posts as $post){
+// 		return $post->title;
+// 	}
+// });
+
+
+
+
+
+
+
+// //polymorphic relation
+// Route::get('user/photos', function(){
+// 	$user = User::find(1);
+// 	foreach($user->photos as $photo){
+// 		return $photo;
+// 	}
+// });
+
+
+// Route::get('post/{id}/photos', function($id){
+// 	$post = Post::find($id);
+// 	foreach($post->photos as $photo){
+// 		echo $photo->path;
+// 	}
+// });
+
+
+
+
+// Route::get('photo/{id}/post', function($id){
+// 	$photo = Photo::findOrFail($id);
+// 	return $photo->imageable;
+// });
+
+
+// polymorphic many to many
+// Route::get('/post/tag', function(){s
+// 	$post = Post::find(1);
+// 	foreach($post->tags as $tag){
+// 		echo $tag->name;
+// 	}
+// });
+
+
+
+Route::get('/tag/post', function(){
+	$tag = Tag::find(2);
+	// return $tag->posts;
+	foreach($tag->posts as $post){
+		echo $post->title;
+	}
 });
-
-
-
-Route::get('/post/{')
 
 
 
